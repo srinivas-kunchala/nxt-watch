@@ -16,10 +16,12 @@ padding:10px;
 
 export const Logo = Styled.img`
 height:40px;
-margin-top:20px;
+
+
 `
 
 export const MobileViewContainer = Styled.div`
+display:flex;
 
 
 
@@ -36,9 +38,13 @@ margin-right:10px;
 color:${props => (props.isDarkTheme ? 'white' : 'black')};
 `
 
-export const LargeDeviceViewContainer = Styled.div`
-
-
+export const LogoutButton = Styled.button`
+height:40px;
+width:100px;
+background-color:transparent;
+border:${props => (props.isDarkTheme ? 'white' : '#3b82f6')} 2px solid;
+cursor:pointer;
+color:${props => (props.isDarkTheme ? 'white' : '#3b82f6')};
 
 
 `

@@ -4,6 +4,8 @@ import {Redirect} from 'react-router-dom'
 
 import Cookies from 'js-cookie'
 
+import NxtWatchContext from '../../context/NxtWatchContext'
+
 import './index.css'
 
 import {
@@ -77,50 +79,77 @@ class LoginForm extends Component {
     }
 
     return (
-      <AppContainer>
-        <LoginContainer onSubmit={this.onSubmitBtn}>
-          <ImgContainer>
-            <ImgEl
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png"
-              alt="logo"
-            />
-          </ImgContainer>
-          <LoginCard>
-            <LabelEl htmlFor="username">USERNAME</LabelEl>
-            <InputEl
-              type="text"
-              placeholder="Username"
-              id="username"
-              value={username}
-              onChange={this.onChangeUsername}
-            />
-          </LoginCard>
-          <LoginCard>
-            <LabelEl htmlFor="password">PASSWORD</LabelEl>
-            {showPassword ? (
-              <InputEl value={password} placeholder="Password" />
-            ) : (
-              <InputEl
-                id="password"
-                type="password"
-                placeholder="Password"
-                onChange={this.onChangePassword}
-                value={password}
-              />
-            )}
-          </LoginCard>
-          <CheckboxContainer>
-            <Checkbox
-              id="showPassword"
-              type="checkbox"
-              onChange={this.onShowPassword}
-              value={showPassword}
-            />
-            <CheckboxLabel htmlFor="showPassword">Show Password</CheckboxLabel>
-          </CheckboxContainer>
-          <LoginButton type="submit">Login</LoginButton>
-        </LoginContainer>
-      </AppContainer>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+
+          const imgUrl = isDarkTheme
+            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+
+          return (
+            <AppContainer isDarkTheme={isDarkTheme}>
+              <LoginContainer
+                isDarkTheme={isDarkTheme}
+                onSubmit={this.onSubmitBtn}
+              >
+                <ImgContainer>
+                  <ImgEl src={imgUrl} alt="logo" />
+                </ImgContainer>
+                <LoginCard>
+                  <LabelEl isDarkTheme={isDarkTheme} htmlFor="username">
+                    USERNAME
+                  </LabelEl>
+                  <InputEl
+                    type="text"
+                    placeholder="Username"
+                    id="username"
+                    value={username}
+                    onChange={this.onChangeUsername}
+                    isDarkTheme={isDarkTheme}
+                  />
+                </LoginCard>
+                <LoginCard>
+                  <LabelEl isDarkTheme={isDarkTheme} htmlFor="password">
+                    PASSWORD
+                  </LabelEl>
+                  {showPassword ? (
+                    <InputEl
+                      isDarkTheme={isDarkTheme}
+                      value={password}
+                      placeholder="Password"
+                    />
+                  ) : (
+                    <InputEl
+                      id="password"
+                      type="password"
+                      placeholder="Password"
+                      onChange={this.onChangePassword}
+                      value={password}
+                      isDarkTheme={isDarkTheme}
+                    />
+                  )}
+                </LoginCard>
+                <CheckboxContainer>
+                  <Checkbox
+                    id="showPassword"
+                    type="checkbox"
+                    onChange={this.onShowPassword}
+                    value={showPassword}
+                  />
+                  <CheckboxLabel
+                    isDarkTheme={isDarkTheme}
+                    htmlFor="showPassword"
+                  >
+                    Show Password
+                  </CheckboxLabel>
+                </CheckboxContainer>
+                <LoginButton type="submit">Login</LoginButton>
+              </LoginContainer>
+            </AppContainer>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

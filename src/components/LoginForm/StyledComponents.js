@@ -6,13 +6,13 @@ justify-content:center;
 align-items:center;
 height:100vh;
 
-background-color:#181818;
+background-color:${props => (props.isDarkTheme ? '#181818' : '#f1f1f1')};
 
 
 `
 
 export const LoginContainer = Styled.form`
-background-color:#0f0f0f;
+background-color:${props => (props.isDarkTheme ? '#0f0f0f' : '#e2e8f0')};
 padding:20px;
 box-shadow:5px;
 height:400px;
@@ -40,7 +40,7 @@ margin-bottom:25px;
 `
 
 export const LabelEl = Styled.label`
-color:white;
+color:${props => (props.isDarkTheme ? 'white' : '#94a3b8')};
 width:100%;
 margin-bottom:10px;
 font-weight:600;
@@ -48,9 +48,9 @@ font-weight:600;
 export const InputEl = Styled.input`
 height:40px;
 padding:10px;
-color:white;
+color:${props => (props.isDarkTheme ? 'white' : '#94a3b8')};
 background-color:transparent;
-border:1px white solid;
+border:${props => (props.isDarkTheme ? 'white' : 'black')} 1px solid;
 font-size:20px;
 `
 
@@ -68,7 +68,7 @@ margin-right:10px;
 `
 export const CheckboxLabel = Styled.label`
 font-size:18px;
-color:white;
+color:${props => (props.isDarkTheme ? 'white' : 'black')};
 `
 export const LoginButton = Styled.button`
 width:100%;

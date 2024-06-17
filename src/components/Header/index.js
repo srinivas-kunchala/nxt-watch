@@ -1,3 +1,7 @@
+import {withRouter} from 'react-router-dom'
+
+import Cookies from 'js-cookie'
+
 import {GiHamburgerMenu} from 'react-icons/gi'
 
 import {FiLogOut} from 'react-icons/fi'
@@ -15,19 +19,24 @@ import {
   Logo,
   MobileViewListContainer,
   ListContent,
+  LogoutButton,
 } from './StyledComponents'
 
-const Header = () => (
+const Header = props => (
   <NxtWatchContext.Consumer>
     {value => {
       const {isDarkTheme, onChangeTheme} = value
-      console.log(isDarkTheme)
 
       const imgUrl = isDarkTheme
         ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
         : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
 
-      console.log(imgUrl)
+      const onClickLogout = () => {
+        const {history} = props
+
+        Cookies.remove('jwt_token')
+        history.replace('/login')
+      }
 
       return (
         <TopNav isDarkTheme={isDarkTheme}>
@@ -45,12 +54,12 @@ const Header = () => (
                 <ListContent isDarkTheme={isDarkTheme}>
                   <GiHamburgerMenu size="40" />
                 </ListContent>
-                <ListContent isDarkTheme={isDarkTheme}>
+                <ListContent isDarkTheme={isDarkTheme} onClick={onClickLogout}>
                   <FiLogOut size="40" />
                 </ListContent>
               </MobileViewListContainer>
             </div>
-            <div className="largeMobileView">
+            <div className="LargeMobileView">
               <MobileViewContainer>
                 <MobileViewListContainer>
                   <ListContent isDarkTheme={isDarkTheme}>
@@ -68,7 +77,13 @@ const Header = () => (
                     />
                   </ListContent>
                 </MobileViewListContainer>
-                <button type="button">Logout</button>
+                <LogoutButton
+                  isDarkTheme={isDarkTheme}
+                  type="button"
+                  onClick={onClickLogout}
+                >
+                  Logout
+                </LogoutButton>
               </MobileViewContainer>
             </div>
           </HeaderContainer>
@@ -78,4 +93,4 @@ const Header = () => (
   </NxtWatchContext.Consumer>
 )
 
-export default Header
+export default withRouter(Header)
