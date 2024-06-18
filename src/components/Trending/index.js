@@ -8,6 +8,8 @@ import TrendingVideoDetails from '../TrendingVideoDetails'
 
 import Sidebar from '../SideBar'
 
+import Videos from '../Videos'
+
 import './index.css'
 
 import {
@@ -115,7 +117,7 @@ class Trending extends Component {
       <div>
         <ul>
           {trendingVideos.map(eachItem => (
-            <TrendingVideoDetails trendingVideos={eachItem} key={eachItem.id} />
+            <Videos videoDetails={eachItem} key={eachItem.id} />
           ))}
         </ul>
       </div>
