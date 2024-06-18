@@ -32,20 +32,34 @@ justify-content:space-between;
 background-color:${props => (props.isDarkTheme ? 'black' : 'white')};
 padding-left:20px;
 padding-right:20px;
+height:135vh;
 
-padding-bottom:20px;
+
 min-width:100%;
+
+`
+
+export const SideAndContentContainer = Styled.div`
+
+
+
+
 
 `
 
 export const SidebarListContainer = Styled.ul`
 list-style-type:none;
 padding-left:0px;
+display:flex;
+flex-direction:column;
+flex-shrink:5;
 
 
 `
 
 export const ListItems = Styled.li`
+flex-shrink:1;
+
 
 
 
@@ -105,6 +119,7 @@ height:40px;
 
 export const LogoIcon = Styled(Logo)`
 margin-right:10px;
+height:20px;
 
 `
 
@@ -118,17 +133,18 @@ export const BottomSectionNavContainer = Styled.div`
 export const HeadingBottom = Styled.h1`
 color:${props => (props.isDarkTheme ? 'white' : 'black')};
 font-family:'Roboto';
+font-size:20px;
 `
 
 export const Description = Styled.p`
 color:${props => (props.isDarkTheme ? 'white' : 'black')};
 font-family:'Roboto';
+font-size:14px;
 `
 
 export const MainBgContainer = Styled.div`
 background-color:${props => (props.isDarkTheme ? 'black' : 'white')};
-height:100vh;
+min-height:100vh;
 
-overflow:auto;
 
 `

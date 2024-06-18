@@ -20,10 +20,21 @@ import {
   CheckboxContainer,
   CheckboxLabel,
   LoginButton,
+  ErrorMsg,
 } from './StyledComponents'
 
 class LoginForm extends Component {
-  state = {username: '', password: '', showPassword: false}
+  state = {
+    username: '',
+    password: '',
+    showPassword: false,
+    errorMsg: '',
+    showErrorMsg: false,
+  }
+
+  onSubmitFailure = errorMsg => {
+    this.setState({errorMsg, showErrorMsg: true})
+  }
 
   onSubmitSuccess = jwtToken => {
     Cookies.set('jwt_token', jwtToken, {expires: 30})
@@ -71,7 +82,13 @@ class LoginForm extends Component {
   }
 
   render() {
-    const {username, password, showPassword} = this.state
+    const {
+      username,
+      password,
+      showPassword,
+      errorMsg,
+      showErrorMsg,
+    } = this.state
     const token = Cookies.get('jwt_token')
 
     if (token !== undefined) {
@@ -145,6 +162,7 @@ class LoginForm extends Component {
                   </CheckboxLabel>
                 </CheckboxContainer>
                 <LoginButton type="submit">Login</LoginButton>
+                {showErrorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
               </LoginContainer>
             </AppContainer>
           )

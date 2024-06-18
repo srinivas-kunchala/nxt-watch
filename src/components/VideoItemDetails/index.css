@@ -1,0 +1,13 @@
+.content-container {
+  display: flex;
+}
+
+.largeView {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .largeView {
+    display: block;
+  }
+}

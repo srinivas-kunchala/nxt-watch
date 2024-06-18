@@ -1,4 +1,15 @@
-import Styled from 'styled-components/macro'
+import Styled from 'styled-components'
+
+export const TrendingContainer = Styled.div`
+background-color:${props => (props.isDarkTheme ? 'black' : 'white')};
+height:100vh;
+
+`
+
+export const ListContainer = Styled.div`
+
+
+`
 
 export const CloseButton = Styled.button`
 border:none;

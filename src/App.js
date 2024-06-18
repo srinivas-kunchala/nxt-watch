@@ -1,6 +1,6 @@
 import {Component} from 'react'
 
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 
 import NxtWatchContext from './context/NxtWatchContext'
 
@@ -9,6 +9,14 @@ import LoginForm from './components/LoginForm/index'
 import ProtectedRoute from './components/ProtectedRoute'
 
 import Home from './components/Home/index'
+
+import VideoItemDetails from './components/VideoItemDetails'
+
+import NotFound from './components/NotFound/index'
+
+import Trending from './components/Trending/index'
+
+import TrendingVideoItemDetails from './components/TrendingVideoItemDetails/index'
 
 import './App.css'
 
@@ -29,6 +37,19 @@ class App extends Component {
         <Switch>
           <Route exact path="/login" component={LoginForm} />
           <ProtectedRoute exact path="/" component={Home} />
+          <ProtectedRoute
+            exact
+            path="/videos/:id"
+            component={VideoItemDetails}
+          />
+          <ProtectedRoute exact path="/trending" component={Trending} />
+          <ProtectedRoute
+            exact
+            path="/trending/:id"
+            component={TrendingVideoItemDetails}
+          />
+          <Route exact path="not-found" component={NotFound} />
+          <Redirect to="not-found" />
         </Switch>
       </NxtWatchContext.Provider>
     )

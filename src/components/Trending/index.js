@@ -2,23 +2,15 @@ import Cookies from 'js-cookie'
 
 import Loader from 'react-loader-spinner'
 
-import {IoMdClose} from 'react-icons/io'
-
 import {Component} from 'react'
 
-import Videos from '../Videos'
+import TrendingVideoDetails from '../TrendingVideoDetails'
 
 import Sidebar from '../SideBar'
 
 import './index.css'
 
 import {
-  Icon,
-  BannerContainer,
-  BannerCard,
-  Logo,
-  CloseButton,
-  GetButton,
   HeadingBottom,
   Description,
   RetryButton,
@@ -29,9 +21,6 @@ import NxtWatchContext from '../../context/NxtWatchContext'
 
 import Header from '../Header'
 
-const img =
-  'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
-
 const apiStatusConstants = {
   initial: 'INITIAL',
   success: 'SUCCESS',
@@ -39,12 +28,10 @@ const apiStatusConstants = {
   isPending: 'IS_PENDING',
 }
 
-class Home extends Component {
+class Trending extends Component {
   state = {
-    closeIcon: true,
-    searchInput: '',
     apiStatus: apiStatusConstants.initial,
-    videosData: [],
+    trendingVideos: [],
   }
 
   componentDidMount() {
@@ -56,9 +43,7 @@ class Home extends Component {
 
     const token = Cookies.get('jwt_token')
 
-    const {searchInput} = this.state
-
-    const apiUrl = `https://apis.ccbp.in/videos/all?search=${searchInput}`
+    const apiUrl = `https://apis.ccbp.in/videos/trending`
 
     const option = {
       method: 'GET',
@@ -69,6 +54,7 @@ class Home extends Component {
 
     const response = await fetch(apiUrl, option)
     const data = await response.json()
+    console.log(data)
 
     if (response.ok) {
       const updatedVideosData = data.videos.map(eachObj => ({
@@ -82,7 +68,7 @@ class Home extends Component {
       }))
 
       this.setState({
-        videosData: updatedVideosData,
+        trendingVideos: updatedVideosData,
         apiStatus: apiStatusConstants.success,
       })
     } else {
@@ -94,42 +80,6 @@ class Home extends Component {
     <div className="loader-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
-  )
-
-  onRenderSuccess = () => (
-    <NxtWatchContext.Consumer>
-      {value => {
-        const {isDarkTheme} = value
-
-        const {videosData} = this.state
-
-        const isVideoExist = videosData.length > 1
-
-        return isVideoExist ? (
-          <MainBgContainer isDarkTheme={isDarkTheme}>
-            <ul>
-              {videosData.map(eachItem => (
-                <Videos videosData={eachItem} key={eachItem.id} />
-              ))}
-            </ul>
-          </MainBgContainer>
-        ) : (
-          <MainBgContainer>
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
-              alt="no videos"
-            />
-            <HeadingBottom isDarkTheme={isDarkTheme}>
-              No Search Result results found
-            </HeadingBottom>
-            <Description isDarkTheme={isDarkTheme}>
-              Try different key words or remove search filter
-            </Description>
-            <RetryButton type="button">Retry</RetryButton>
-          </MainBgContainer>
-        )
-      }}
-    </NxtWatchContext.Consumer>
   )
 
   onRenderFailure = () => (
@@ -158,7 +108,21 @@ class Home extends Component {
     </NxtWatchContext.Consumer>
   )
 
-  onRenderFinalView = () => {
+  onRenderSuccess = () => {
+    const {trendingVideos} = this.state
+
+    return (
+      <div>
+        <ul>
+          {trendingVideos.map(eachItem => (
+            <TrendingVideoDetails trendingVideos={eachItem} key={eachItem.id} />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  renderFinalView = () => {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
@@ -176,31 +140,6 @@ class Home extends Component {
     }
   }
 
-  onClickCloseIcon = () => {
-    this.setState({closeIcon: false})
-  }
-
-  renderPremiumBanner = () => {
-    const {closeIcon} = this.state
-
-    return (
-      closeIcon && (
-        <BannerContainer>
-          <BannerCard>
-            <Icon>
-              <CloseButton type="button" onClick={this.onClickCloseIcon}>
-                <IoMdClose size="30" />
-              </CloseButton>
-            </Icon>
-            <Logo src={img} alt="logo" />
-            <h1>Buy Nxt Watch Premium</h1>
-            <GetButton type="button">GET IT NOW</GetButton>
-          </BannerCard>
-        </BannerContainer>
-      )
-    )
-  }
-
   render() {
     return (
       <>
@@ -215,10 +154,7 @@ class Home extends Component {
                   <div className="largeDeviceView">
                     <Sidebar />
                   </div>
-                  <div>
-                    {this.renderPremiumBanner()}
-                    {this.onRenderFinalView()}
-                  </div>
+                  <div>{this.renderFinalView()}</div>
                 </div>
               </MainBgContainer>
             )
@@ -229,4 +165,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default Trending

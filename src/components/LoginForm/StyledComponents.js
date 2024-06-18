@@ -15,7 +15,7 @@ export const LoginContainer = Styled.form`
 background-color:${props => (props.isDarkTheme ? '#0f0f0f' : '#e2e8f0')};
 padding:20px;
 box-shadow:5px;
-height:400px;
+height:450px;
 width:400px;
 
 
@@ -81,4 +81,9 @@ border:none;
 outline:none;
 cursor:pointer;
 border-radius:10px;
+`
+
+export const ErrorMsg = Styled.p`
+
+color:' #ff0b37';
 `

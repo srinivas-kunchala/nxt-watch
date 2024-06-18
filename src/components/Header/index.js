@@ -1,4 +1,4 @@
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 
 import Cookies from 'js-cookie'
 
@@ -41,7 +41,9 @@ const Header = props => (
       return (
         <TopNav isDarkTheme={isDarkTheme}>
           <HeaderContainer>
-            <img src={imgUrl} alt="logo" className="logo" />
+            <Link to="/">
+              <img src={imgUrl} alt="logo" className="logo" />
+            </Link>
             <div className="mobileView">
               <MobileViewListContainer>
                 <ListContent isDarkTheme={isDarkTheme}>
