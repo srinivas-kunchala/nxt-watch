@@ -16,8 +16,6 @@ import NotFound from './components/NotFound/index'
 
 import Trending from './components/Trending/index'
 
-import TrendingVideoItemDetails from './components/TrendingVideoItemDetails/index'
-
 import './App.css'
 
 // Replace your code here
@@ -43,11 +41,7 @@ class App extends Component {
             component={VideoItemDetails}
           />
           <ProtectedRoute exact path="/trending" component={Trending} />
-          <ProtectedRoute
-            exact
-            path="/trending/:id"
-            component={TrendingVideoItemDetails}
-          />
+
           <Route exact path="not-found" component={NotFound} />
           <Redirect to="not-found" />
         </Switch>

@@ -4,8 +4,6 @@ import Loader from 'react-loader-spinner'
 
 import {Component} from 'react'
 
-import TrendingVideoDetails from '../TrendingVideoDetails'
-
 import Sidebar from '../SideBar'
 
 import Videos from '../Videos'
