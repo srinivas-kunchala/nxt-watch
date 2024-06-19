@@ -32,7 +32,7 @@ justify-content:space-between;
 background-color:${props => (props.isDarkTheme ? 'black' : 'white')};
 padding-left:20px;
 padding-right:20px;
-height:135vh;
+height:115vh;
 
 
 min-width:100%;
@@ -52,13 +52,13 @@ list-style-type:none;
 padding-left:0px;
 display:flex;
 flex-direction:column;
-flex-shrink:5;
+
 
 
 `
 
 export const ListItems = Styled.li`
-flex-shrink:1;
+
 
 
 
@@ -144,7 +144,7 @@ font-size:14px;
 
 export const MainBgContainer = Styled.div`
 background-color:${props => (props.isDarkTheme ? 'black' : 'white')};
-min-height:100vh;
+height:110vh;
 
 
 `

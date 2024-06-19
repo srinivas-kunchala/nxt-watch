@@ -1,0 +1,23 @@
+.popup-content {
+  height: 40vh;
+}
+
+.largeDeviceView {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .largeDeviceView {
+    display: block;
+    min-height: 100vh;
+    width: 25%;
+  }
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+.list-container {
+  display: flex;
+}

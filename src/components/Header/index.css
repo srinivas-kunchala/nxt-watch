@@ -23,5 +23,6 @@ button {
   height: 40px;
   width: 100px;
   margin-top: 20px;
-  background-color: transparent;
+  background-color: none;
+  border: none;
 }

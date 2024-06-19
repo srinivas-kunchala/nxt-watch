@@ -143,3 +143,8 @@ height:100vh;
 overflow:auto;
 
 `
+
+export const TrendContainer = Styled.div`
+background-color:${props => (props.isDarkTheme ? '#0f0f0f' : '#f9f9f9')}
+height:100vh;
+`

@@ -52,7 +52,7 @@ const Sidebar = () => (
                   </ListTextContent>
                 </ListItemContainer>
               </Link>
-              <Link to="gaming">
+              <Link to="/gaming">
                 <ListItems>
                   <ListItemContainer>
                     <SiYoutubegaming size="30" color="red" />

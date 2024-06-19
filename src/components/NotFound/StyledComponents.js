@@ -1,21 +1,137 @@
 import Styled from 'styled-components/macro'
 
-export const NotFoundContainer = Styled.div`
-height:100vh;
-padding:20px;
-background-color:${props => (props.isDarkTheme ? 'black' : 'white')};
+export const CloseButton = Styled.button`
+border:none;
+background-color:transparent;
+cursor:pointer;
+font-family:'roboto';
+
 
 `
 
-export const ImageEL = Styled.img`
+export const GetButton = Styled(CloseButton)`
+border:1px solid black;
+padding:10px;
+color:black;
+font-size:12px;
+
+font-weight:600;
+`
+
+export const RetryButton = Styled(CloseButton)`
+background-color:'orange';
+padding:10px;
+color:white;
+
+`
+
+export const SidebarContainer = Styled.div`
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+background-color:${props => (props.isDarkTheme ? 'black' : 'white')};
+padding-left:20px;
+padding-right:20px;
+
+padding-bottom:20px;
+min-width:100%;
+
+`
+
+export const SidebarListContainer = Styled.ul`
+list-style-type:none;
+padding-left:0px;
+
+
+`
+
+export const ListItems = Styled.li`
+
+
+
+`
+
+export const ListItemContainer = Styled.div`
+display:flex;
+justify-content:flex-start;
+align-items:center;
+
+
+`
+
+export const Icon = Styled.div`
+display:flex;
+justify-content:flex-end;
+width:80%;
+
+
+`
+
+export const ListTextContent = Styled.p`
+color:${props => (props.isDarkTheme ? 'white' : 'black')};
+margin-left:15px;
+font-size:15px;
+font-weight:600;
+margin-bottom:20px;
+`
+
+export const BannerContainer = Styled.div`
+
+height:35vh;
+width:100%;
+
+
+
+
+padding-left:20px;
+
+`
+
+export const BannerCard = Styled.div`
+background-image:url('https://assets.ccbp.in/frontend/react-js/nxt-watch-banner-bg.png');
+background-size:cover;
+height:40vh;
+min-width:50%;
+
+
+
+
+`
+
+export const Logo = Styled.img`
 height:50vh;
+
+`
+
+export const LogoIcon = Styled(Logo)`
+margin-right:10px;
+
+`
+
+export const BottomSectionNavContainer = Styled.div`
+
+
+
+
 `
 
 export const Heading = Styled.h1`
 color:${props => (props.isDarkTheme ? 'white' : 'black')};
+font-family:'Roboto';
 `
 
 export const Description = Styled.p`
 color:${props => (props.isDarkTheme ? 'white' : 'black')};
+font-family:'Roboto';
+`
+
+export const MainBgContainer = Styled.div`
+background-color:${props => (props.isDarkTheme ? 'black' : 'white')};
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+
+
 
 `

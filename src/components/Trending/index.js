@@ -15,6 +15,7 @@ import {
   Description,
   RetryButton,
   MainBgContainer,
+  TrendContainer,
 } from './StyledComponents'
 
 import NxtWatchContext from '../../context/NxtWatchContext'
@@ -92,7 +93,7 @@ class Trending extends Component {
           : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
 
         return (
-          <MainBgContainer isDarkTheme={isDarkTheme}>
+          <TrendContainer isDarkTheme={isDarkTheme}>
             <img src={failureImg} alt="failure " />
             <HeadingBottom isDarkTheme={isDarkTheme}>
               Oops! Something Went Wrong
@@ -102,7 +103,7 @@ class Trending extends Component {
               again.
             </Description>
             <RetryButton type="button">Retry</RetryButton>
-          </MainBgContainer>
+          </TrendContainer>
         )
       }}
     </NxtWatchContext.Consumer>
@@ -112,13 +113,13 @@ class Trending extends Component {
     const {trendingVideos} = this.state
 
     return (
-      <div>
+      <TrendContainer>
         <ul>
           {trendingVideos.map(eachItem => (
             <Videos videosData={eachItem} key={eachItem.id} />
           ))}
         </ul>
-      </div>
+      </TrendContainer>
     )
   }
 
@@ -149,12 +150,17 @@ class Trending extends Component {
             const {isDarkTheme} = value
 
             return (
-              <MainBgContainer isDarkTheme={isDarkTheme}>
+              <MainBgContainer isDarkTheme={isDarkTheme} data-testid="trending">
                 <div className="list-container">
                   <div className="largeDeviceView">
                     <Sidebar />
                   </div>
-                  <div>{this.renderFinalView()}</div>
+                  <TrendContainer
+                    isDarkTheme={isDarkTheme}
+                    data-testid="trending"
+                  >
+                    {this.renderFinalView()}
+                  </TrendContainer>
                 </div>
               </MainBgContainer>
             )

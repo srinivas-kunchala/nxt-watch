@@ -38,13 +38,13 @@ margin-right:10px;
 color:${props => (props.isDarkTheme ? 'white' : 'black')};
 `
 
-export const LogoutButton = Styled.button`
-height:40px;
-width:100px;
+export const Button = Styled.button`
+
 background-color:transparent;
-border:${props => (props.isDarkTheme ? 'white' : '#3b82f6')} 2px solid;
+border:none;
+
 cursor:pointer;
-color:${props => (props.isDarkTheme ? 'white' : '#3b82f6')};
+
 
 
 `

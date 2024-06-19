@@ -1,29 +1,34 @@
-import {Component} from 'react'
-
 import Cookies from 'js-cookie'
 
 import Loader from 'react-loader-spinner'
 
+import {Component} from 'react'
+
 import ReactPlayer from 'react-player'
+
+import {BiLike, BiDislike} from 'react-icons/bi'
+
+import {HiSaveAs} from 'react-icons/hi'
 
 import Sidebar from '../SideBar'
 
+import './index.css'
+
 import {
   MainBgContainer,
-  ProfileContainer,
-  Description,
-  Profile,
   Heading,
+  Description,
   RetryButton,
-  SuccessBgContainer,
-  Container,
+  ProfileContainer,
+  CustomLikeButton,
+  InfoAndButtonContainer,
+  Logo,
+  ContentContainer,
 } from './StyledComponents'
 
 import NxtWatchContext from '../../context/NxtWatchContext'
 
 import Header from '../Header'
-
-import './index.css'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -33,13 +38,19 @@ const apiStatusConstants = {
 }
 
 class VideoItemDetails extends Component {
-  state = {apiStatus: apiStatusConstants.initial, videoDetails: {}}
-
-  componentDidMount() {
-    this.getVideoDetails()
+  state = {
+    apiStatus: apiStatusConstants.initial,
+    videosData: [],
+    likeBtn: false,
+    dislikeBtn: false,
+    saveBtn: false,
   }
 
-  getVideoDetails = async () => {
+  componentDidMount() {
+    this.getAllVideos()
+  }
+
+  getAllVideos = async () => {
     this.setState({apiStatus: apiStatusConstants.isPending})
 
     const token = Cookies.get('jwt_token')
@@ -50,46 +61,49 @@ class VideoItemDetails extends Component {
 
     const apiUrl = `https://apis.ccbp.in/videos/${id}`
 
-    const options = {
+    const option = {
       method: 'GET',
       headers: {
         Authorization: `BEARER ${token}`,
       },
     }
 
-    const response = await fetch(apiUrl, options)
+    const response = await fetch(apiUrl, option)
     const data = await response.json()
 
+    console.log(data)
+
     if (response.ok) {
-      const updatedVideoDetails = {
-        channelName: data.video_details.channel.name,
-        subscribers: data.video_details.channel.subscriber_count,
-        profileImg: data.video_details.channel.profile_image_url,
-        description: data.video_details.description,
+      const updatedVideosData = {
         id: data.video_details.id,
         publishedAt: data.video_details.published_at,
         thumbnailUrl: data.video_details.thumbnail_url,
         title: data.video_details.title,
+        description: data.video_details.description,
         videoUrl: data.video_details.video_url,
         viewCount: data.video_details.view_count,
+        subscribers: data.video_details.subscriber_count,
+        channelName: data.video_details.channel.name,
+        profileImgUrl: data.video_details.channel.profile_image_url,
       }
+      console.log(updatedVideosData)
 
       this.setState({
+        videosData: updatedVideosData,
         apiStatus: apiStatusConstants.success,
-        videoDetails: updatedVideoDetails,
       })
     } else {
       this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
 
-  renderLoadingPart = () => (
+  onLoading = () => (
     <div className="loader-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   )
 
-  renderFailurePart = () => (
+  onRenderFailure = () => (
     <NxtWatchContext.Consumer>
       {value => {
         const {isDarkTheme} = value
@@ -99,13 +113,16 @@ class VideoItemDetails extends Component {
           : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
 
         return (
-          <MainBgContainer isDarkTheme={isDarkTheme}>
+          <MainBgContainer
+            isDarkTheme={isDarkTheme}
+            data-testid="videoItemDetails"
+          >
             <img src={failureImg} alt="failure " />
             <Heading isDarkTheme={isDarkTheme}>
               Oops! Something Went Wrong
             </Heading>
             <Description isDarkTheme={isDarkTheme}>
-              We are having some trouble to complete your request please try
+              We are having some trouble to complete your request. Please try
               again.
             </Description>
             <RetryButton type="button">Retry</RetryButton>
@@ -115,50 +132,117 @@ class VideoItemDetails extends Component {
     </NxtWatchContext.Consumer>
   )
 
+  onClickLikeBtn = () => {
+    this.setState(previousState => ({
+      likeBtn: !previousState.likeBtn,
+      dislikeBtn: false,
+    }))
+  }
+
+  onClickDisLikeBtn = () => {
+    this.setState(previousState => ({
+      dislikeBtn: !previousState.dislikeBtn,
+      likeBtn: false,
+    }))
+  }
+
   renderSuccessView = () => (
     <NxtWatchContext.Consumer>
       {value => {
-        const {isDarkTheme} = value
-        const {videoDetails} = this.state
+        const {isDarkTheme, onAddSavedVideos} = value
 
-        const {
-          channelName,
-          subscribers,
-          profileImg,
-          title,
-          videoUrl,
-          viewCount,
+        const {videosData, likeBtn, dislikeBtn, saveBtn} = this.state
 
-          publishedAt,
-          description,
-        } = videoDetails
+        const onClickSaveBtn = () => {
+          onAddSavedVideos(videosData)
+          this.setState(previousState => ({saveBtn: !previousState.saveBtn}))
+        }
 
+        const text = saveBtn ? 'Saved' : 'Save'
         return (
-          <SuccessBgContainer isDarkTheme={isDarkTheme}>
-            <MainBgContainer>
-              <ReactPlayer url={videoUrl} controls />
-            </MainBgContainer>
-            <Description isDarkTheme={isDarkTheme}>{title}</Description>
-            <ProfileContainer>
-              <Description isDarkTheme={isDarkTheme}>{viewCount}</Description>
-              <Description isDarkTheme={isDarkTheme}>{publishedAt}</Description>
-            </ProfileContainer>
+          <MainBgContainer
+            isDarkTheme={isDarkTheme}
+            data-testid="videoItemDetails"
+          >
+            <ReactPlayer url={videosData.videoUrl} controls />
+            <Heading isDarkTheme={isDarkTheme}>{videosData.title}</Heading>
+
+            <InfoAndButtonContainer isDarkTheme={isDarkTheme}>
+              <ProfileContainer>
+                <Description isDarkTheme={isDarkTheme} rightMargin>
+                  {videosData.viewCount}
+                </Description>
+                <Description isDarkTheme={isDarkTheme}>
+                  {videosData.publishedAt}
+                </Description>
+              </ProfileContainer>
+              <ProfileContainer>
+                <ProfileContainer>
+                  <CustomLikeButton
+                    isDarkTheme={isDarkTheme}
+                    onClick={this.onClickLikeBtn}
+                    likeBtn={likeBtn}
+                  >
+                    <BiLike />
+                    <Description
+                      isDarkTheme={isDarkTheme}
+                      leftMargin
+                      likeBtn={likeBtn}
+                    >
+                      Like
+                    </Description>
+                  </CustomLikeButton>
+                </ProfileContainer>
+                <ProfileContainer>
+                  <CustomLikeButton
+                    isDarkTheme={isDarkTheme}
+                    onClick={this.onClickDisLikeBtn}
+                    dislikeBtn={dislikeBtn}
+                  >
+                    <BiDislike />
+                    <Description
+                      isDarkTheme={isDarkTheme}
+                      leftMargin
+                      dislikeBtn={dislikeBtn}
+                    >
+                      DisLike
+                    </Description>
+                  </CustomLikeButton>
+                </ProfileContainer>
+                <ProfileContainer>
+                  <CustomLikeButton
+                    isDarkTheme={isDarkTheme}
+                    onClick={onClickSaveBtn}
+                    saveBtn={saveBtn}
+                  >
+                    <HiSaveAs />
+
+                    <Description
+                      isDarkTheme={isDarkTheme}
+                      leftMargin
+                      saveBtn={saveBtn}
+                    >
+                      {text}
+                    </Description>
+                  </CustomLikeButton>
+                </ProfileContainer>
+              </ProfileContainer>
+            </InfoAndButtonContainer>
+
             <hr />
             <ProfileContainer>
-              <Profile src={profileImg} />
-              <Container>
+              <Logo src={videosData.profileImgUrl} />
+              <ContentContainer>
+                <Heading isDarkTheme={isDarkTheme}>{videosData.title}</Heading>
                 <Description isDarkTheme={isDarkTheme}>
-                  {channelName}
+                  {videosData.subscribers}
                 </Description>
                 <Description isDarkTheme={isDarkTheme}>
-                  {subscribers}
+                  {videosData.description}
                 </Description>
-                <Description isDarkTheme={isDarkTheme}>
-                  {description}
-                </Description>
-              </Container>
+              </ContentContainer>
             </ProfileContainer>
-          </SuccessBgContainer>
+          </MainBgContainer>
         )
       }}
     </NxtWatchContext.Consumer>
@@ -168,10 +252,10 @@ class VideoItemDetails extends Component {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConstants.isPending:
-        return this.renderLoadingPart()
+        return this.onLoading()
 
       case apiStatusConstants.failure:
-        return this.renderFailurePart()
+        return this.onRenderFailure()
 
       case apiStatusConstants.success:
         return this.renderSuccessView()
@@ -183,16 +267,15 @@ class VideoItemDetails extends Component {
 
   render() {
     return (
-      <div>
+      <div data-testid="videoItemDetails">
         <Header />
         <div className="content-container">
-          <div className="largeView">
-            <Sidebar />
-          </div>
-          {this.renderFinalView()}
+          <Sidebar />
+          <div data-testid="videoItemDetails">{this.renderFinalView()}</div>
         </div>
       </div>
     )
   }
 }
+
 export default VideoItemDetails

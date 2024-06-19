@@ -9,13 +9,6 @@ font-family:'roboto';
 
 `
 
-export const SearchInput = Styled.input`
-height:40px;
-width:40%;
-background-color:transparent;
-
-`
-
 export const GetButton = Styled(CloseButton)`
 border:1px solid black;
 padding:10px;
@@ -133,7 +126,7 @@ font-family:'Roboto';
 `
 
 export const MainBgContainer = Styled.div`
-background-color:${props => (props.isDarkTheme ? '#181818' : '#f9f9f9')};
+background-color:${props => (props.isDarkTheme ? '#0f0f0f' : '#f9f9f9')};
 height:100vh;
 
 overflow:auto;

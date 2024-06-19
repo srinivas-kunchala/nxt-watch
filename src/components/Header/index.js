@@ -10,6 +10,8 @@ import {FaRegLightbulb, FaLightbulb} from 'react-icons/fa'
 
 import NxtWatchContext from '../../context/NxtWatchContext'
 
+import PopupContent from '../PopupContent'
+
 import './index.css'
 
 import {
@@ -19,7 +21,7 @@ import {
   Logo,
   MobileViewListContainer,
   ListContent,
-  LogoutButton,
+  Button,
 } from './StyledComponents'
 
 const Header = props => (
@@ -48,9 +50,22 @@ const Header = props => (
               <MobileViewListContainer>
                 <ListContent isDarkTheme={isDarkTheme}>
                   {isDarkTheme ? (
-                    <FaLightbulb size="40" onClick={onChangeTheme} />
+                    <Button
+                      type="button"
+                      onClick={onChangeTheme}
+                      data-testid="theme"
+                      isDarkTheme={isDarkTheme}
+                    >
+                      <FaLightbulb size="40" label />
+                    </Button>
                   ) : (
-                    <FaRegLightbulb size="40" onClick={onChangeTheme} />
+                    <Button
+                      type="button"
+                      onClick={onChangeTheme}
+                      data-testid="theme"
+                    >
+                      <FaRegLightbulb size="40" label />
+                    </Button>
                   )}
                 </ListContent>
                 <ListContent isDarkTheme={isDarkTheme}>
@@ -66,9 +81,21 @@ const Header = props => (
                 <MobileViewListContainer>
                   <ListContent isDarkTheme={isDarkTheme}>
                     {isDarkTheme ? (
-                      <FaLightbulb size="40" onClick={onChangeTheme} />
+                      <Button
+                        type="button"
+                        onClick={onChangeTheme}
+                        data-testid="theme"
+                      >
+                        <FaLightbulb size="40" label />
+                      </Button>
                     ) : (
-                      <FaRegLightbulb size="40" onClick={onChangeTheme} />
+                      <Button
+                        type="button"
+                        onClick={onChangeTheme}
+                        data-testid="theme"
+                      >
+                        <FaRegLightbulb size="40" label />
+                      </Button>
                     )}
                   </ListContent>
 
@@ -79,13 +106,7 @@ const Header = props => (
                     />
                   </ListContent>
                 </MobileViewListContainer>
-                <LogoutButton
-                  isDarkTheme={isDarkTheme}
-                  type="button"
-                  onClick={onClickLogout}
-                >
-                  Logout
-                </LogoutButton>
+                <PopupContent onClickLogout={onClickLogout} />
               </MobileViewContainer>
             </div>
           </HeaderContainer>
