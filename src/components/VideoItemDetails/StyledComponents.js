@@ -6,6 +6,7 @@ color:${props => (props.isDarkTheme ? 'white' : 'black')};
 cursor:pointer;
 display:flex;
 align-items:center;
+background-color:transparent;
 
 color:${props => (props.likeBtn ? '#2563eb' : '#64748b')};
 
